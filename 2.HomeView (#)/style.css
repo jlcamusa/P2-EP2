@@ -1,0 +1,11 @@
+.title {
+    font-family: 'Poppins';
+}
+
+.btn {
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+    font-family: Poppins;
+    font-size: x-large;
+}

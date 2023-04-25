@@ -1,0 +1,30 @@
+.title {
+    font-family: 'Poppins';
+}
+
+.time {
+    display: inline;
+}
+
+.user {
+    display: inline-block;
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    text-align: center;
+}
+
+.middle {
+    position: relative;
+    top: 25px;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.waiting {
+    background-color: #D9D9D9;
+}
+
+.accepted {
+    background-color: #8BF858;
+}
