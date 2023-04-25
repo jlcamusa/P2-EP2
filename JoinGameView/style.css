@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap%27');
+
+* {
+    font-family: Poppins;
+}
+
+button {
+    width: 80%;
+    height: 40px;
+    margin: 20px 10%;
+    text-align: left;
+}

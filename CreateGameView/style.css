@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: white;
+}
+
+.title {
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.container {
+    max-width: 300px;
+    height: 500px;
+    background-color: white;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+    font-size: large;
+}
+
+.inputName {
+    font-size: x-large;
+    width: 300px;
+    background-color: #d9d9d9;
+    border:none;
+}
+
+.inputQuestionTime {
+    font-size: x-large;
+    border:none;
+    width: 300px;
+    background-color: #d9d9d9;
+}
+
+.buttonControl {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px ;
+}
+
+.createGameButton {
+    font-size: medium;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 16px;
+    background-color: white;
+    border: solid black 3px;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>CreateGameView</title>
+</head>
+<body>
+    <h1 class="title">CREAR JUEGO</h1>
+    <div class="container">
+        <form id="form" action="#">
+            <label class="name">NOMBRE</label>
+                <div class="inputControl">
+                    <input type="text" class="inputName">
+                </div>
+            <label class="questionTime">TIEMPO PREGUNTA</label>
+            <div class="selectControl">
+                <select name="score" class="inputQuestionTime"> 
+                    <option value="2">60</option>
+                    <option value="1">90</option>
+                    <option value="0">120</option>
+                </select>
+            </div>
+            <label class="answerTime">TIEMPO RESPUESTAS</label>
+            <div class="selectControl">
+                <select name="score" class="inputQuestionTime"> 
+                    <option value="2">60</option>
+                    <option value="1">90</option>
+                    <option value="0">120</option>
+                </select>
+            </div>  
+        </form>
+        <div class="buttonControl">
+            <button onclick="window.location.href='../WaitUsersView/main.html'" type="submit" class="createGameButton">CREAR</button>
+        </div>        
+    </div>
+</body>
+</html>
