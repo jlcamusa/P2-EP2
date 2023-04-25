@@ -8,7 +8,16 @@ games.send()
 
 games.onload = function() {
 
-  //document.getElementById('games').innerHTML = '<div></div>'
-  console.log(JSON.parse(this.response))
+  data = JSON.parse(this.response)
+  console.log(data);
+  
+  Object.keys(data).forEach(element => {
+    element = data[element];
+    document.getElementById('games').innerHTML += '<div>'+ element.name +'</div>'
+  })
+
+  
+
+  console.log()
 }
 
