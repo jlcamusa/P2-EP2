@@ -19,7 +19,11 @@ function newGame() {
 
 xhttp.onload = function() {
     if (this.status === 201) {
-        localStorage.setItem( 'Game', JSON.parse(this.response).id ) ;
+        data = JSON.parse(this.response)
+        localStorage.setItem( 'Game', data.id );
+        localStorage.setItem( 'question_time', data.question_time);
+        localStorage.setItem( 'answer_time', data.answer_time);
+        localStorage.setItem( 'creator', localStorage.getItem('id'));
         window.location.href='../7.WebSocket/main.html';
     }
 }
