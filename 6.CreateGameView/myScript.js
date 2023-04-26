@@ -19,8 +19,8 @@ function newGame() {
 
 xhttp.onload = function() {
     if (this.status === 201) {
-        //window.location.href='../7.WaitUsersView/main.html';
-        console.log('Juego creado con exito');
+        localStorage.setItem( 'Game', JSON.stringify(JSON.parse(this.response)) ) ;
+        window.location.href='../7.WebSocket/main.html';
     }
 }
 
