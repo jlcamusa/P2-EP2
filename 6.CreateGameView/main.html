@@ -13,28 +13,29 @@
         <form id="form" action="#">
             <label class="name">NOMBRE</label>
                 <div class="inputControl">
-                    <input type="text" class="inputName">
+                    <input type="text" class="inputName" id="name">
                 </div>
             <label class="questionTime">TIEMPO PREGUNTA</label>
             <div class="selectControl">
-                <select name="score" class="inputQuestionTime"> 
-                    <option value="2">60</option>
-                    <option value="1">90</option>
-                    <option value="0">120</option>
+                <select name="score" class="inputQuestionTime" id="questionTime"> 
+                    <option value="60">60</option>
+                    <option value="90">90</option>
+                    <option value="120">120</option>
                 </select>
             </div>
             <label class="answerTime">TIEMPO RESPUESTAS</label>
             <div class="selectControl">
-                <select name="score" class="inputQuestionTime"> 
-                    <option value="2">60</option>
-                    <option value="1">90</option>
-                    <option value="0">120</option>
+                <select name="score" class="inputQuestionTime" id="answerTime"> 
+                    <option value="60">60</option>
+                    <option value="90">90</option>
+                    <option value="120">120</option>
                 </select>
             </div>  
         </form>
         <div class="buttonControl">
-            <button onclick="window.location.href='../WaitUsersView/main.html'" type="submit" class="createGameButton">CREAR</button>
+            <button id="create" type="submit" class="createGameButton">CREAR</button>
         </div>        
     </div>
+    <script src="myScript.js"></script>
 </body>
 </html>

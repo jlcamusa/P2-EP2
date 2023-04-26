@@ -6,3 +6,4 @@ Password
 access_token
 
 Vistas 4 y 5 arreglar tiempo
+Vistas 6 hacia adelante mejorar stilos en caso de 
