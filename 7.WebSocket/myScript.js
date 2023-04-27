@@ -19,14 +19,15 @@ socket.onopen = function(e) {
 
 socket.onmessage = function(event) {
   alert(`[message] Datos recibidos del servidor: ${event.data}`);
-
- data = JSON.parse(event.data)
+  
+  data = JSON.parse(event.data)
 
   switch (data.type) {
     case "player_joined":
       players.push(data.username);
       document.getElementById('rounds').min = players.length + 1;
       document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
+      break;
     case "round_started":
       if (data.nosy_id === localStorage.getItem('id')){
         document.getElementById("view_2").classList.remove("hidden");
@@ -37,11 +38,12 @@ socket.onmessage = function(event) {
         document.getElementById('nosy').innerHTML = "";
         localStorage.setItem("nosy","False");
       }
+      break;
     case "round_question":
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
       }
-
+      break;
   }
 
 };
