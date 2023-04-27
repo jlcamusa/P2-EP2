@@ -13,21 +13,24 @@ games.onload = function() {
   
   Object.keys(data).forEach(element => {
     element = data[element];
-    document.getElementById('games').innerHTML += '<div class="game" onclick="joinGame('
-    + element.id + ',' + element.answer_time + ',' + element.question_time + ',' + element.creator.id +')" >'
-    + element.name +'</div>'
+    document.getElementById('games').innerHTML += '<div class="game">'+ element.name +'</div>';
   })
 
-  //console.log(document.getElementsByClassName('game'));
+  index = 0;
+  Object.keys(data).forEach(element => {
+    element = data[element];
+    document.querySelectorAll(".game")[index].addEventListener('click', () => {joinGame(element)});
+    index += 1
+  })
 
 }
 
-function joinGame(gameid,a_time,q_time,creator) {
-  localStorage.setItem('answer_time',a_time)
-  localStorage.setItem('question_time',q_time)
-  localStorage.setItem('creator',creator)
+function joinGame(game) {
+  localStorage.setItem('answer_time',game.answer_time)
+  localStorage.setItem('question_time',game.question_time)
+  localStorage.setItem('creator',game.creator.id)
 
-  join.open('POST', 'https://trivia-bck.herokuapp.com/api/games/' + gameid + '/join_game/');
+  join.open('POST', 'https://trivia-bck.herokuapp.com/api/games/' + game.id + '/join_game/');
   join.setRequestHeader("Authorization","Bearer " + token);
   join.send();
 }
