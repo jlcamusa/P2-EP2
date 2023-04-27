@@ -22,6 +22,7 @@ socket.onmessage = function(event) {
   
   data = JSON.parse(event.data)
 
+
   switch (data.type) {
     case "player_joined":
       players.push(data.username);
@@ -29,6 +30,8 @@ socket.onmessage = function(event) {
       document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
       break;
     case "round_started":
+      console.log(data.nosy_id);
+      console.log(localStorage.getItem("id"));
       if (data.nosy_id === parseInt(localStorage.getItem('id'))){
         document.getElementById("view_2").classList.remove("hidden");
         document.getElementById('nosy').innerHTML = "Actualmente eres el pregunton";
@@ -42,6 +45,7 @@ socket.onmessage = function(event) {
     case "round_question":
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
+        document.getElementById("roundQuestion").innerHTML = data.round_question;
       }
       break;
     default:
@@ -89,7 +93,7 @@ function start() {
 
 function sendQuestion() {
   JSON_Object = { "action": "question", "text": document.getElementById('question').value};
-  socket.send(JSON.parse(JSON_Object));
+  socket.send(JSON.stringify(JSON_Object));
   JSON_Object = { "action": "answer", "text": document.getElementById('answer').value};
   socket.send(JSON.stringify(JSON_Object));
   document.getElementById('view_2').classList.add("hidden")
