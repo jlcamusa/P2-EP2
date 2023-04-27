@@ -14,11 +14,11 @@ let points = 0;
 //----- Socket methods -----//
 
 socket.onopen = function(e) {
-  alert("[open] Conexion establecida");
+  console.log("[open] Conexion establecida");
 };
 
 socket.onmessage = function(event) {
-  alert(`[message] Datos recibidos del servidor: ${event.data}`);
+  console.log(`[message] Datos recibidos del servidor: ${event.data}`);
   
   data = JSON.parse(event.data)
 
@@ -29,7 +29,7 @@ socket.onmessage = function(event) {
       document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
       break;
     case "round_started":
-      if (data.nosy_id === localStorage.getItem('id')){
+      if (data.nosy_id === parseInt(localStorage.getItem('id'))){
         document.getElementById("view_2").classList.remove("hidden");
         document.getElementById('nosy').innerHTML = "Actualmente eres el pregunton";
         localStorage.setItem("nosy","True");
@@ -43,6 +43,8 @@ socket.onmessage = function(event) {
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
       }
+      break;
+    default:
       break;
   }
 
