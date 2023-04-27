@@ -81,7 +81,7 @@ else {
 //----- Functions -----//
 function start() {
   JSON_Object = { "action": "start", "rounds": document.getElementById('rounds').value};
-  socket.send(JSON.parse(JSON_Object));
+  socket.send(JSON.stringify(JSON_Object));
   document.getElementById("view_1").classList.add("hidden")
 }
 
@@ -89,12 +89,12 @@ function sendQuestion() {
   JSON_Object = { "action": "question", "text": document.getElementById('question').value};
   socket.send(JSON.parse(JSON_Object));
   JSON_Object = { "action": "answer", "text": document.getElementById('answer').value};
-  socket.send(JSON.parse(JSON_Object));
+  socket.send(JSON.stringify(JSON_Object));
   document.getElementById('view_2').classList.add("hidden")
 }
 
 function sendAnswer() {
   JSON_Object = { "action": "answer", "text": document.getElementById('userAnswer').value};
-  socket.send(JSON.parse(JSON_Object));
+  socket.send(JSON.stringify(JSON_Object));
   document.getElementById("view_3").classList.add("hidden");
 }
