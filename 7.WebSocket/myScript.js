@@ -45,7 +45,7 @@ socket.onmessage = function(event) {
     case "round_question":
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
-        document.getElementById("roundQuestion").innerHTML = data.round_question;
+        document.getElementById("roundQuestion").innerHTML = data.question;
       }
       break;
     default:
