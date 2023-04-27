@@ -6,3 +6,8 @@
     text-align: right;
     color: red;
 }
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}

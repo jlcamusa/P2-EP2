@@ -1,3 +1,5 @@
+//----- DATA -----//
+
 let token_access = localStorage.getItem('access_token')
 const Game = JSON.parse(localStorage.getItem('Game'))
 const main = document.getElementById('main');
@@ -5,45 +7,44 @@ const main = document.getElementById('main');
 let gameid = localStorage.getItem('Game');
 let socket = new WebSocket("wss://trivia-bck.herokuapp.com/ws/trivia/" + gameid + "/?token=" + token_access);
 
+let players = [];
+let faults = 0;
+let points = 0;
+
+//----- Socket methods -----//
+
 socket.onopen = function(e) {
-  alert("[open] Conexión establecida");
-  alert("Enviando al servidor");
+  alert("[open] Conexion establecida");
 };
 
 socket.onmessage = function(event) {
   alert(`[message] Datos recibidos del servidor: ${event.data}`);
 
-  data = event.data
+ data = JSON.parse(event.data)
 
-  console.log(data.type);
+  switch (data.type) {
+    case "player_joined":
+      players.push(data.username);
+      document.getElementById('rounds').min = players.length + 1;
+      document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
+    case "round_started":
+      if (data.nosy_id === localStorage.getItem('id')){
+        document.getElementById("view_2").classList.remove("hidden");
+        document.getElementById('nosy').innerHTML = "Actualmente eres el pregunton";
+        localStorage.setItem("nosy","True");
+      }
+      else {
+        document.getElementById('nosy').innerHTML = "";
+        localStorage.setItem("nosy","False");
+      }
+    case "round_question":
+      if(localStorage.getItem("nosy") === "False") {
+        document.getElementById("view_3").classList.remove("hidden");
+      }
 
-  if (data.type == "player_joined"){
-    document.getElementById('rounds').min += 1
   }
 
 };
-
-if (localStorage.getItem('id') === localStorage.getItem('creator')) {
-  
-}
-else {
-  main.innerHTML = '<div>You are waiting</div>'; 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 socket.onclose = function(event) {
   if (event.wasClean) {
@@ -58,3 +59,40 @@ socket.onclose = function(event) {
 socket.onerror = function(error) {
   alert(`[error]`);
 };
+
+//----- Buttons -----//
+document.getElementById('start').addEventListener('click',start);
+document.getElementById('sendQuestion').addEventListener('click',sendQuestion);
+document.getElementById('sendAnswer').addEventListener('click',sendAnswer)
+
+//----- Start -----//
+document.getElementById('name').innerHTML = "Nombre: " + localStorage.getItem('User')
+document.getElementById('faults').innerHTML = "Faltas: " + faults
+document.getElementById('points').innerHTML = "Puntos: " + points
+
+if (localStorage.getItem('id') === localStorage.getItem('creator')) {
+  document.getElementById("view_1").classList.remove("hidden")
+}
+else {
+}
+
+//----- Functions -----//
+function start() {
+  JSON_Object = { "action": "start", "rounds": document.getElementById('rounds').value};
+  socket.send(JSON.parse(JSON_Object));
+  document.getElementById("view_1").classList.add("hidden")
+}
+
+function sendQuestion() {
+  JSON_Object = { "action": "question", "text": document.getElementById('question').value};
+  socket.send(JSON.parse(JSON_Object));
+  JSON_Object = { "action": "answer", "text": document.getElementById('answer').value};
+  socket.send(JSON.parse(JSON_Object));
+  document.getElementById('view_2').classList.add("hidden")
+}
+
+function sendAnswer() {
+  JSON_Object = { "action": "answer", "text": document.getElementById('userAnswer').value};
+  socket.send(JSON.parse(JSON_Object));
+  document.getElementById("view_3").classList.add("hidden");
+}

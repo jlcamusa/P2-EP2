@@ -16,20 +16,46 @@
         <div class="col-2"></div>
 
         <div class="col-8" id="main">
-            <div id="view_1">
+            
+            <div id="view_1" class="hidden">
                 <input type="number" min="1" id="rounds">
-                <button>Enter</button>
+                <button id="start">Enter</button>
+                <div><ul id="players"></ul></div>
             </div>
+
+            <div id="view_2" class="hidden">
+                <div>
+                    <label for="question">Question</label>
+                    <input type="text" id="question">
+                </div>
+                <div>
+                    <label for="answer">Answer</label>
+                    <input type="text" id="answer">
+                </div>
+                <div>
+                    <button id="sendQuestion">Send</button>
+                </div>
+            </div>
+
+            <div id="view_3" class="hidden">
+                <div><p id="roundQuestion">Pregunta:</p></div>
+                <div>
+                    <label for="userAnswer">Respuesta</label>
+                    <input type="text" id="userAnswer">
+                </div>
+                <div id="sendAnswer">Send</div>
+            </div>
+
         </div>
 
         <div class="col-2"></div>
     </div>
 
     <div class="footer">
-        <div class="column">Nombre:</div>
-        <div class="column">Faltas:</div>
-        <div class="column">Puntos:</div>
-        <div class="column">Actualmente eres el Pregunton</div>
+        <div class="column" id="name">Nombre:</div>
+        <div class="column" id="faults">Faltas:</div>
+        <div class="column" id="points">Puntos:</div>
+        <div class="column" id="nosy"></div>
     </div>
     
     <script src="myScript.js"></script>
