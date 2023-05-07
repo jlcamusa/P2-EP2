@@ -26,7 +26,7 @@ socket.onmessage = function(event) {
   switch (data.type) {
     case "player_joined":
       players.push(data.username);
-      //TODO
+      //TODO fix issue when selecting minimum rounds
       document.getElementById('rounds').min = players.length + 1;
       document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
       break;
@@ -57,7 +57,6 @@ socket.onmessage = function(event) {
       } 
       time = parseInt(localStorage.getItem("answer_time"));
       break;
-    //TODO
     case "round_answer":
       data.userid;
       document.getElementById("evaluateAnswers").innerHTML += '<div>'+
@@ -94,24 +93,38 @@ socket.onmessage = function(event) {
           '<label for="2">False</label>' +
           "</div>" +
           "</div>"
-        
       }
       time = 30;
       break;
-
-    case "game_result":
-      break;
-    case "user_falut":
+    case "round_result":
+      points = data.game_scores[localStorage.getItem("id")]
+      document.getElementById('points').innerHTML = 'Puntos: ' + points;
+    case "user_fault":
       if (data.player_id === parseInt(localStorage.getItem("id"))) {
+        
         switch (data.category) {
-          case "":
-            faults += 2
+          case "QT":
+            document.getElementById('view_2').classList.add("hidden")
+            faults += 2;
+            break;
+          case "AT":
+            document.getElementById("view_3").classList.add("hidden");
+            faults += 1;
+            break;
+          case "ET":
+            document.getElementById("view_4").classList.add("hidden");
+            faults += 1;
+            break;
+          case "FT":
+            document.getElementById("view_5").classList.add("hidden");
+            faults += 1;
+            break;
+          case "FF":
+            faults += 1;
             break;
           default:
-            faults += 1
             break;
         }
-        
         document.getElementById('faults').innerHTML = "Faltas: " + faults;
       }
       if (faults >= 3) {
@@ -121,6 +134,8 @@ socket.onmessage = function(event) {
         alert('Has sido descalificado');
         window.location.href='../3.JoinGameView/main.html';
       }
+      break;
+    case "game_result":
       break;
     default:
       break;
@@ -146,7 +161,6 @@ socket.onerror = function(error) {
 document.getElementById('start').addEventListener('click',start);
 document.getElementById('sendQuestion').addEventListener('click',sendQuestion);
 document.getElementById('sendAnswer').addEventListener('click',sendAnswer);
-//TODO
 document.getElementById('sendQualify').addEventListener('click',sendQualify);
 document.getElementById('sendReview').addEventListener('click',sendReview);
 
@@ -176,7 +190,7 @@ function sendQuestion() {
   socket.send(JSON.stringify(JSON_Object));
   JSON_Object = { "action": "answer", "text": document.getElementById('answer').value};
   socket.send(JSON.stringify(JSON_Object));
-  document.getElementById('view_2').classList.add("hidden")
+  document.getElementById('view_2').classList.add("hidden");
 }
 
 function sendAnswer() {
@@ -185,12 +199,9 @@ function sendAnswer() {
   document.getElementById("view_3").classList.add("hidden");
 }
 
-//TODO
 function sendQualify() {
-
   document.querySelectorAll(".userQualify").forEach(element=>{
     data = element.value.split(',');
-
     JSON_Object = { "action": "qualify", "userid": data[1],"grade": data[0]};
     socket.send(JSON.stringify(JSON_Object));
   })
@@ -199,14 +210,12 @@ function sendQualify() {
 }
 
 function sendReview() {
-  //TODO
   data = document.querySelector('input[name="review"]:checked').value;
   JSON_Object = { "action": "assess", "correctness": data};
   socket.send(JSON.stringify(JSON_Object));
   document.getElementById("view_5").classList.add("hidden");
 }
 
-//UNUSED
 function grade(number) {
   switch (number) {
     case 0:
