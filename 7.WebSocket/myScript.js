@@ -61,9 +61,9 @@ socket.onmessage = function(event) {
       document.getElementById("evaluateAnswers").innerHTML += '<div>'+
         '<div>'+ data.answer +'</div>'+
         '<div><select class="userQualify">'+
-        '<option value="{"id":'+ data.userid +', "points": 0}">Mala</option>'+
-        '<option value="{"id":'+ data.userid +', "points": 1}">Mas o Menos</option>'+
-        '<option value="{"id":'+ data.userid +', "points": 2}">Buena</option>'+
+        '<option value=' + 0 + ',' + data.userid + '>Mala</option>'+
+        '<option value=' + 1 + ',' + data.userid + '>Mas o Menos</option>'+
+        '<option value=' + 2 + ',' + data.userid + '>Buena</option>'+
         '</select></div>'+
         '</div>'
       break;
@@ -72,6 +72,28 @@ socket.onmessage = function(event) {
         document.getElementById("view_4").classList.remove("hidden");
       }
       break;
+    case "round_review_answer":
+      if (localStorage.getItem("nosy") === "False"){
+        document.getElementById("view_5").classList.remove("hidden");
+
+        evaluation = grade(data.grade);
+
+        document.getElementById("reviewAnswers").innerHTML = "<div>"+
+          "<div>RESPUESTA CORRECTA: " + data.correct_answer + "</div>" +
+          "<div>RESPUESTA ENTREGADA: " + data.graded_answer + "</div>" +
+          "<div>EVALUACION: " + evaluation + "</div>" +
+          "<label for=''></label>" +
+          "<div>" +
+          '<input id="1" type="radio" value="true" name="review" checked>' +
+          '<label for="1">True</label>' +
+          '<input id="2" type="radio" value="false" name="review">' +          
+          '<label for="2">False</label>' +
+          "</div>" +
+          "</div>"
+        
+      }
+      break;
+
 
     case "game_result":
       break;
@@ -115,6 +137,7 @@ document.getElementById('sendQuestion').addEventListener('click',sendQuestion);
 document.getElementById('sendAnswer').addEventListener('click',sendAnswer);
 //TODO
 document.getElementById('sendQualify').addEventListener('click',sendQualify);
+document.getElementById('sendReview').addEventListener('click',sendReview);
 
 //----- Start -----//
 document.getElementById('name').innerHTML = "Nombre: " + localStorage.getItem('User')
@@ -152,11 +175,32 @@ function sendAnswer() {
 function sendQualify() {
 
   document.querySelectorAll(".userQualify").forEach(element=>{
-    data = JSON.parse(element.value);
+    data = element.value.split(',');
 
-    JSON_Object = { "action": "qualify", "userid": data.id,"grade": data.points};
+    JSON_Object = { "action": "qualify", "userid": data[1],"grade": data[0]};
     socket.send(JSON.stringify(JSON_Object));
   })
   document.getElementById("evaluateAnswers").innerHTML = "";
   document.getElementById("view_4").classList.add("hidden");    
+}
+
+function sendReview() {
+  //TODO
+  data = document.querySelector('input[name="review"]:checked').value
+  JSON_Object = { "action": "assess", "correctness": data};
+  socket.send(JSON.stringify(JSON_Object));
+  document.getElementById("view_5").classList.add("hidden");
+}
+
+function grade(number) {
+  switch (number) {
+    case number === 0:
+      return "Mala"
+    case number === 1:
+      return "Mas o Menos"
+    case number === 2:
+      return "Buena"
+    default:
+      break;
+  }
 }
