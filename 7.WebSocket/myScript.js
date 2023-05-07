@@ -11,6 +11,7 @@ let socket = new WebSocket("wss://trivia-bck.herokuapp.com/ws/trivia/" + gameid 
 let players = [];
 let faults = 0;
 let points = 0;
+let time;
 
 //----- Socket methods -----//
 
@@ -37,8 +38,6 @@ socket.onmessage = function(event) {
       })
       break;
     case "round_started":
-      console.log(data.nosy_id);
-      console.log(localStorage.getItem("id"));
       if (data.nosy_id === parseInt(localStorage.getItem('id'))){
         document.getElementById("view_2").classList.remove("hidden");
         document.getElementById('nosy').innerHTML = "Actualmente eres el pregunton";
@@ -48,12 +47,15 @@ socket.onmessage = function(event) {
         document.getElementById('nosy').innerHTML = "";
         localStorage.setItem("nosy","False");
       }
+
+      time = parseInt(localStorage.getItem("question_time"));
       break;
     case "round_question":
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
         document.getElementById("roundQuestion").innerHTML = data.question;
-      }
+      } 
+      time = parseInt(localStorage.getItem("answer_time"));
       break;
     //TODO
     case "round_answer":
@@ -71,17 +73,17 @@ socket.onmessage = function(event) {
       if (localStorage.getItem("nosy") === "True"){
         document.getElementById("view_4").classList.remove("hidden");
       }
+      time = 90;
       break;
     case "round_review_answer":
       if (localStorage.getItem("nosy") === "False"){
         document.getElementById("view_5").classList.remove("hidden");
 
-        evaluation = grade(data.grade);
-
+        console.log(data.grade);
         document.getElementById("reviewAnswers").innerHTML = "<div>"+
           "<div>RESPUESTA CORRECTA: " + data.correct_answer + "</div>" +
           "<div>RESPUESTA ENTREGADA: " + data.graded_answer + "</div>" +
-          "<div>EVALUACION: " + evaluation + "</div>" +
+          "<div>EVALUACION: " + data.grade + "</div>" +
           "<label for=''></label>" +
           "<div>" +
           '<input id="1" type="radio" value="true" name="review" checked>' +
@@ -92,16 +94,17 @@ socket.onmessage = function(event) {
           "</div>"
         
       }
+      time = 30;
       break;
-
 
     case "game_result":
       break;
     case "user_falut":
       if (data.player_id === localStorage.getItem("id")) {
-        //TODO caso faltas especificas 
+        //TODO caso faltas especificas
+        console.log(data.category); 
         faults += 1;
-        document.getElementById('faluts').innerHTML = "Faltas: " + faults;
+        document.getElementById('faults').innerHTML = "Faltas: " + faults;
       }
       if (faults >= 3) {
         unjoin.open("POST","https://trivia-bck.herokuapp.com/api/games/gameid/unjoin_game/");
@@ -150,6 +153,9 @@ if (localStorage.getItem('id') === localStorage.getItem('creator')) {
 else {
 }
 
+document.getElementById("clock").innerHTML = localStorage.getItem("question_time");
+setInterval(clock,1000);
+
 //----- Functions -----//
 function start() {
   JSON_Object = { "action": "start", "rounds": document.getElementById('rounds').value};
@@ -186,12 +192,13 @@ function sendQualify() {
 
 function sendReview() {
   //TODO
-  data = document.querySelector('input[name="review"]:checked').value
+  data = document.querySelector('input[name="review"]:checked').value;
   JSON_Object = { "action": "assess", "correctness": data};
   socket.send(JSON.stringify(JSON_Object));
   document.getElementById("view_5").classList.add("hidden");
 }
 
+//UNUSED
 function grade(number) {
   switch (number) {
     case number === 0:
@@ -202,5 +209,12 @@ function grade(number) {
       return "Buena"
     default:
       break;
+  }
+}
+
+function clock() {
+  if (time > 0){
+    time --;
+    document.getElementById("clock").innerHTML = time;
   }
 }
