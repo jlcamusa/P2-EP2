@@ -79,11 +79,13 @@ socket.onmessage = function(event) {
       if (localStorage.getItem("nosy") === "False"){
         document.getElementById("view_5").classList.remove("hidden");
 
+        evaluation = grade(data.grade);
+
         console.log(data.grade);
         document.getElementById("reviewAnswers").innerHTML = "<div>"+
           "<div>RESPUESTA CORRECTA: " + data.correct_answer + "</div>" +
           "<div>RESPUESTA ENTREGADA: " + data.graded_answer + "</div>" +
-          "<div>EVALUACION: " + data.grade + "</div>" +
+          "<div>EVALUACION: " + evaluation + "</div>" +
           "<label for=''></label>" +
           "<div>" +
           '<input id="1" type="radio" value="true" name="review" checked>' +
@@ -100,10 +102,16 @@ socket.onmessage = function(event) {
     case "game_result":
       break;
     case "user_falut":
-      if (data.player_id === localStorage.getItem("id")) {
-        //TODO caso faltas especificas
-        console.log(data.category); 
-        faults += 1;
+      if (data.player_id === parseInt(localStorage.getItem("id"))) {
+        switch (data.category) {
+          case "":
+            faults += 2
+            break;
+          default:
+            faults += 1
+            break;
+        }
+        
         document.getElementById('faults').innerHTML = "Faltas: " + faults;
       }
       if (faults >= 3) {
@@ -201,11 +209,11 @@ function sendReview() {
 //UNUSED
 function grade(number) {
   switch (number) {
-    case number === 0:
+    case 0:
       return "Mala"
-    case number === 1:
+    case 1:
       return "Mas o Menos"
-    case number === 2:
+    case 2:
       return "Buena"
     default:
       break;
