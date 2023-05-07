@@ -1,12 +1,16 @@
+//----- XMLHttp -----//
 const games = new XMLHttpRequest();
 const join = new XMLHttpRequest();
 
-var token = localStorage.getItem('access_token')
+//----- Data -----//
+var token = localStorage.getItem('access_token');
 
-games.open("GET","https://trivia-bck.herokuapp.com/api/games/")
-games.setRequestHeader("Authorization","Bearer " + token)
-games.send()
+//----- Start -----//
+games.open("GET","https://trivia-bck.herokuapp.com/api/games/");
+games.setRequestHeader("Authorization","Bearer " + token);
+games.send();
 
+//----- onload -----//
 games.onload = function() {
   data = JSON.parse(this.response)
   console.log(data);
@@ -22,17 +26,6 @@ games.onload = function() {
     document.querySelectorAll(".game")[index].addEventListener('click', () => {joinGame(element)});
     index += 1
   })
-
-}
-
-function joinGame(game) {
-  localStorage.setItem('answer_time',game.answer_time)
-  localStorage.setItem('question_time',game.question_time)
-  localStorage.setItem('creator',game.creator.id)
-
-  join.open('POST', 'https://trivia-bck.herokuapp.com/api/games/' + game.id + '/join_game/');
-  join.setRequestHeader("Authorization","Bearer " + token);
-  join.send();
 }
 
 join.onload = function() {
@@ -42,3 +35,15 @@ join.onload = function() {
   }
 }
 
+//----- Functions -----//
+function joinGame(game) {
+  token = localStorage.getItem('access_token');
+  localStorage.setItem('answer_time',game.answer_time);
+  localStorage.setItem('question_time',game.question_time);
+  localStorage.setItem('creator',game.creator.id);
+
+  //TODO guardar jugadores
+  join.open('POST', 'https://trivia-bck.herokuapp.com/api/games/' + game.id + '/join_game/');
+  join.setRequestHeader("Authorization","Bearer " + token);
+  join.send();
+}

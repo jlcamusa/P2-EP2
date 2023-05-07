@@ -1,12 +1,13 @@
 //----- DATA -----//
+const unjoin = new XMLHttpRequest();
 
 let token_access = localStorage.getItem('access_token')
 const Game = JSON.parse(localStorage.getItem('Game'))
-const main = document.getElementById('main');
 
 let gameid = localStorage.getItem('Game');
 let socket = new WebSocket("wss://trivia-bck.herokuapp.com/ws/trivia/" + gameid + "/?token=" + token_access);
 
+//TODO fix player
 let players = [];
 let faults = 0;
 let points = 0;
@@ -19,15 +20,21 @@ socket.onopen = function(e) {
 
 socket.onmessage = function(event) {
   console.log(`[message] Datos recibidos del servidor: ${event.data}`);
-  
   data = JSON.parse(event.data)
-
 
   switch (data.type) {
     case "player_joined":
       players.push(data.username);
+      //TODO
       document.getElementById('rounds').min = players.length + 1;
       document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
+      break;
+    case "player_unjoined":
+      players.splice(players.indexOf(data.username),1);
+      document.getElementById('players').innerHTML = "";
+      players.forEach(element => {
+        document.getElementById('players').innerHTML += "<li>"+ element +"</li>"; 
+      })
       break;
     case "round_started":
       console.log(data.nosy_id);
@@ -46,6 +53,40 @@ socket.onmessage = function(event) {
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
         document.getElementById("roundQuestion").innerHTML = data.question;
+      }
+      break;
+    //TODO
+    case "round_answer":
+      data.userid;
+      document.getElementById("evaluateAnswers").innerHTML += '<div>'+
+        '<div>'+ data.answer +'</div>'+
+        '<div><select class="userQualify">'+
+        '<option value="{"id":'+ data.userid +', "points": 0}">Mala</option>'+
+        '<option value="{"id":'+ data.userid +', "points": 1}">Mas o Menos</option>'+
+        '<option value="{"id":'+ data.userid +', "points": 2}">Buena</option>'+
+        '</select></div>'+
+        '</div>'
+      break;
+    case "answer_time_ended":
+      if (localStorage.getItem("nosy") === "True"){
+        document.getElementById("view_4").classList.remove("hidden");
+      }
+      break;
+
+    case "game_result":
+      break;
+    case "user_falut":
+      if (data.player_id === localStorage.getItem("id")) {
+        //TODO caso faltas especificas 
+        faults += 1;
+        document.getElementById('faluts').innerHTML = "Faltas: " + faults;
+      }
+      if (faults >= 3) {
+        unjoin.open("POST","https://trivia-bck.herokuapp.com/api/games/gameid/unjoin_game/");
+  	    unjoin.setRequestHeader("Authorization","Bearer " + token_access);
+  	    unjoin.send();
+        alert('Has sido descalificado');
+        window.location.href='../3.JoinGameView/main.html';
       }
       break;
     default:
@@ -71,7 +112,9 @@ socket.onerror = function(error) {
 //----- Buttons -----//
 document.getElementById('start').addEventListener('click',start);
 document.getElementById('sendQuestion').addEventListener('click',sendQuestion);
-document.getElementById('sendAnswer').addEventListener('click',sendAnswer)
+document.getElementById('sendAnswer').addEventListener('click',sendAnswer);
+//TODO
+document.getElementById('sendQualify').addEventListener('click',sendQualify);
 
 //----- Start -----//
 document.getElementById('name').innerHTML = "Nombre: " + localStorage.getItem('User')
@@ -103,4 +146,17 @@ function sendAnswer() {
   JSON_Object = { "action": "answer", "text": document.getElementById('userAnswer').value};
   socket.send(JSON.stringify(JSON_Object));
   document.getElementById("view_3").classList.add("hidden");
+}
+
+//TODO
+function sendQualify() {
+
+  document.querySelectorAll(".userQualify").forEach(element=>{
+    data = JSON.parse(element.value);
+
+    JSON_Object = { "action": "qualify", "userid": data.id,"grade": data.points};
+    socket.send(JSON.stringify(JSON_Object));
+  })
+  document.getElementById("evaluateAnswers").innerHTML = "";
+  document.getElementById("view_4").classList.add("hidden");    
 }
