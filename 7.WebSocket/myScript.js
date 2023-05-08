@@ -167,9 +167,9 @@ socket.onmessage = function(event) {
       alert('El juego ha sido eliminado')
       break;
     case "game_result":
-      document.getElementById("winners");
+      document.getElementById("winners").classList.remove('hidden');
       Object.keys(players_data).forEach(element =>{
-        players_data[element].points = data[element];
+        players_data[element].points = data.game_scores[element];
       })
 
       order = Object.entries(players_data).sort((a,b) => b[1].points - a[1].points);
