@@ -1,5 +1,4 @@
 //----- DATA -----//
-const axios = require('axios');
 const unjoin = new XMLHttpRequest();
 
 let token_access = localStorage.getItem('access_token')
