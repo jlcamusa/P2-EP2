@@ -7,19 +7,18 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body {
-    background-color: white;
+.container-title {
+    text-align: center;
 }
 
 .title {
     margin-top: 8px;
-    margin-left: 10px;
+    padding: 40px;
 }
 
 .container {
     max-width: 300px;
-    height: 500px;
-    background-color: white;
+    height: 300px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -33,18 +32,38 @@ label {
 }
 
 .inputName {
-    font-size: x-large;
-    width: 300px;
-    background-color: #d9d9d9;
-    border:none;
+    padding: 0.5em;
+    border-radius: 10px;
+    border: 4px solid #c1071e;
+    font-family: "Poppins", sans-serif;
+    font-size: 1em;
+    width: 500px;
+    transition: all 0.3s ease-in-out;
+    height: 60px;
 }
 
+.inputName:focus {
+    outline: none;
+    border: 2px solid #c1071e;
+    box-shadow: 0px 0px 4px #c1071e;
+  }
+
 .inputQuestionTime {
-    font-size: x-large;
-    border:none;
-    width: 300px;
-    background-color: #d9d9d9;
+    padding: 0.5em;
+    border-radius: 10px;
+    border: 4px solid #c1071e;
+    font-family: "Poppins", sans-serif;
+    font-size: 1em;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+    height: 60px;
 }
+
+.inputQuestionTime:focus {
+    outline: none;
+    border: 2px solid #c1071e;
+    box-shadow: 0px 0px 4px #c1071e;
+  }
 
 .buttonControl {
     margin: 0 auto;
@@ -56,11 +75,18 @@ label {
 }
 
 .createGameButton {
-    font-size: medium;
-    font-weight: bold;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 16px;
-    background-color: white;
-    border: solid black 3px;
+    background-color: #c1071e;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 0.8em 1.5em;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
+
+.createGameButton:hover {
+    background-color: #c1071e;
+  }
