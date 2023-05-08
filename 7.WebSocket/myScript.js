@@ -4,7 +4,7 @@ const unjoin = new XMLHttpRequest();
 let token_access = localStorage.getItem('access_token')
 const Game = JSON.parse(localStorage.getItem('Game'))
 
-const API_KEY = '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';
+const API_KEY = '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';
 const url = 'https://api.openai.com/v1/completions';
 
 let gameid = localStorage.getItem('Game');
