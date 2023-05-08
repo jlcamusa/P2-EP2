@@ -4,7 +4,7 @@ const unjoin = new XMLHttpRequest();
 let token_access = localStorage.getItem('access_token')
 const Game = JSON.parse(localStorage.getItem('Game'))
 
-const API_KEY = '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'; //API KEY GOES HERE
+const API_KEY = ''; //API KEY GOES HERE
 const url = 'https://api.openai.com/v1/completions';
 
 let gameid = localStorage.getItem('Game');
@@ -35,7 +35,7 @@ socket.onmessage = function(event) {
       if (!players.includes(data.username)){
         players.push(data.username);
         document.getElementById('rounds').min = players.length + 1;
-        document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
+        document.getElementById('players').innerHTML += "<li class='players'>"+ data.username +"</li>"; 
         document.getElementById('error').innerHTML = '';
       }      
       //TODO fix issue when selecting minimum rounds
@@ -85,8 +85,8 @@ socket.onmessage = function(event) {
       break;
     case "round_answer":
       data.userid;
-      document.getElementById("evaluateAnswers").innerHTML += '<div class="container-view">'+
-        '<label class="view-label">'+ data.answer +'</label>'+
+      document.getElementById("evaluateAnswers").innerHTML += '<div>'+
+        '<label class="view-labels">'+ data.answer +'</label>'+
         '<div><select class="userQualify">'+
         '<option value=' + 0 + ',' + data.userid + '>Mala</option>'+
         '<option value=' + 1 + ',' + data.userid + '>Mas o Menos</option>'+
@@ -108,14 +108,13 @@ socket.onmessage = function(event) {
 
         console.log(data.grade);
         document.getElementById("reviewAnswers").innerHTML = "<div>"+
-          "<div>RESPUESTA CORRECTA: " + data.correct_answer + "</div>" +
-          "<div>RESPUESTA ENTREGADA: " + data.graded_answer + "</div>" +
-          "<div>EVALUACION: " + evaluation + "</div>" +
-          "<label for=''></label>" +
+          "<div class='view-labels'>RESPUESTA CORRECTA: " + data.correct_answer + "</div>" +
+          "<div class='view-labels'>RESPUESTA ENTREGADA: " + data.graded_answer + "</div>" +
+          "<div class='view-labels'>EVALUACION: " + evaluation + "</div>" +
           "<div>" +
-          '<input id="1" type="radio" value="true" name="review" checked>' +
+          '<input class="view-inputs" id="1" type="radio" value="true" name="review" checked>' +
           '<label for="1">True</label>' +
-          '<input id="2" type="radio" value="false" name="review">' +          
+          '<input class="view-inputs" id="2" type="radio" value="false" name="review">' +          
           '<label for="2">False</label>' +
           "</div>" +
           "</div>"
@@ -183,7 +182,7 @@ socket.onmessage = function(event) {
 
       order = Object.entries(players_data).sort((a,b) => b[1].points - a[1].points);
       order.forEach(element => {
-        document.getElementById('winners').innerHTML += '<div>' + 
+        document.getElementById('winners').innerHTML += '<div class="winners">' + 
         element[1].username + ' : ' +
         element[1].points +
         '</div>'

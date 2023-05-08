@@ -16,8 +16,8 @@
     </div>
 
     <div class="">
-        <div class="">
-            <div><ul id="players"></ul></div>
+        <div class="player-container">
+            <div><ul class="player-list" id="players"></ul></div>
         </div>
 
         <div id="main">
@@ -66,22 +66,23 @@
                 </div>
             </div>
 
-            <div id="view_4" class="hidden">
+            <div id="view_4" class="hidden container-view">
                 <div id="evaluateAnswers"></div>
                 <div><button id="sendQualify" class="view-button">ENVIAR</button></div>
             </div>
 
-            <div id="view_5" class="hidden">
+            <div id="view_5" class="hidden container-view">
                 <div id="reviewAnswers"></div>
-                <div><button id="sendReview">ENVIAR</button></div>
+                <div><button class="view-button" id="sendReview">ENVIAR</button></div>
             </div>
             
-            <div id="view_6" class="hidden">
+            <div id="view_6" class="hidden container-view">
+                <label class="view-labels-red">Ganadores:</label>
                 <div id="winners"></div>
             </div>
 
-            <div id="view_7" class="invisible view7-div">
-                <label class="view-labels-waiting">ESPERANDO...</label>
+            <div id="view_7" class="invisible view-text">
+                <label>ESPERANDO...</label>
             </div>
 
         </div>

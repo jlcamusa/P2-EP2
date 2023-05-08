@@ -167,15 +167,76 @@
     width: 100%;
     transition: all 0.3s ease-in-out;
     height: 60px;
+    display: flex;
 }
 
-.view7-div {
+.view-text {
   text-align: center;
-  margin-top: 120px;
+  
   font-size: 70px;
   font-family: "Poppins", sans-serif;
   color: #c1071e;
   font-weight: bold;
+}
+
+.player-container {
+  margin-top: 20px;
+  position: fixed;
+  border: 4px solid #c1071e;
+  border-radius: 10px;
+  padding: 50px;
+}
+
+.player-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.players {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  font-family: Arial, sans-serif;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+}
+
+.players:hover {
+  transform: scale(1.05);
+}
+
+.winners {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+.user_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.user_info div {
+  padding: 5px;
+}
+
+.user_info:hover {
+  transform: translateY(-5px);
+}
+
+.view-labels-red {
+  font-family: 'Poppins';
+  font-size: 25px;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #c1071e;
 }
 
 
