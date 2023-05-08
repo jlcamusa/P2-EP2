@@ -4,6 +4,9 @@ const unjoin = new XMLHttpRequest();
 let token_access = localStorage.getItem('access_token')
 const Game = JSON.parse(localStorage.getItem('Game'))
 
+const API_KEY = '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';
+const url = 'https://api.openai.com/v1/completions';
+
 let gameid = localStorage.getItem('Game');
 let socket = new WebSocket("wss://trivia-bck.herokuapp.com/ws/trivia/" + gameid + "/?token=" + token_access);
 
@@ -72,14 +75,14 @@ socket.onmessage = function(event) {
         document.getElementById("view_3").classList.remove("hidden");
         document.getElementById("roundQuestion").innerHTML = data.question;
 
-        document.getElementById("API1").innerHTML = '';
-
-        getChatResponse(toString(data.question)).then(response => {
-          document.getElementById("API1").innerHTML = response;
-          }).catch(error => {
-          document.getElementById("API1").innerHTML = 'ERROR';
-          });      
+         
       }
+      document.getElementById("API1").innerHTML = '';  
+      getChatResponse(toString(data.question)).then(response => {
+        document.getElementById("API1").innerHTML = response;
+        }).catch(error => {
+        document.getElementById("API1").innerHTML = 'ERROR';
+        });   
       time = parseInt(localStorage.getItem("answer_time"));
       break;
     case "round_answer":
@@ -309,8 +312,6 @@ function update() {
 }
 
 function getChatResponse(prompt) {
-  const API_KEY = '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'; // Reemplaza "tu_clave_api" con tu clave API
-  const url = 'https://api.openai.com/v1/completions';
 return new Promise((resolve, reject) => {
   const request = new XMLHttpRequest();
   request.open('POST', url);
