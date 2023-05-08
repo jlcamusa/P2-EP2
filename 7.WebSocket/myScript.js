@@ -7,15 +7,14 @@ const Game = JSON.parse(localStorage.getItem('Game'))
 let gameid = localStorage.getItem('Game');
 let socket = new WebSocket("wss://trivia-bck.herokuapp.com/ws/trivia/" + gameid + "/?token=" + token_access);
 
-//TODO fix player
 let players_data = {};
 let players = [];
 let faults = 0;
 let points = 0;
 let time;
+let winner;
 
 //----- Socket methods -----//
-
 socket.onopen = function(e) {
   console.log("[open] Conexion establecida");
 };
@@ -115,9 +114,10 @@ socket.onmessage = function(event) {
       time = 30;
       break;
     case "round_result":
-      players_data.forEach(element => {
-        players_data[element.id].points = data.game_scores[element.id];
+      Object.keys(players_data).forEach(element => {
+        players_data[element].points = data.game_scores[element];
       })
+      update();
       points = data.game_scores[localStorage.getItem("id")]
       document.getElementById('points').innerHTML = 'Puntos: ' + points;
     case "user_fault":
@@ -160,7 +160,25 @@ socket.onmessage = function(event) {
       players_data[data.player_id].status = "Disqualified"
       update();
       break;
+    case "game_canceled":
+      alert('El juego ha sido cancelado')
+      break;
+    case "game_deleted":
+      alert('El juego ha sido eliminado')
+      break;
     case "game_result":
+      document.getElementById("winners");
+      Object.keys(players_data).forEach(element =>{
+        players_data[element].points = data[element];
+      })
+
+      order = Object.entries(players_data).sort((a,b) => b[1].points - a[1].points);
+      order.forEach(element => {
+        document.getElementById('winners').innerHTML += '<div>' + 
+        element[1].username + ' : ' +
+        element[1].points +
+        +'</div>'
+      })
       break;
     default:
       break;
@@ -240,7 +258,8 @@ function sendQualify() {
     socket.send(JSON.stringify(JSON_Object));
   })
   document.getElementById("evaluateAnswers").innerHTML = "";
-  document.getElementById("view_4").classList.add("hidden");    
+  document.getElementById("view_4").classList.add("hidden");
+  time = 30;    
 }
 
 function sendReview() {
