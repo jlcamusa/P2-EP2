@@ -32,32 +32,38 @@
             </div>
 
             <div id="view_2" class="hidden view-question">
-                <div class="container-view2">
+                <div class="container-view">
                     <div>
-                        <label for="question">Pregunta</label>
-                        <input type="text" id="question">
+                        <label for="question" class="view-labels">Pregunta</label>
+                        <input type="text" id="question" class="view-inputs">
                     </div>
                     <div>
-                        <label for="answer">Respuesta</label>
-                        <input type="text" id="answer">
+                        <label for="answer" class="view2-labels">Respuesta</label>
+                        <input type="text" id="answer" class="view-inputs">
                     </div>
                     <div>
-                        <button id="sendQuestion">Send</button>
+                        <button id="sendQuestion" class="view-button">ENVIAR</button>
                     </div>
                 </div>    
             </div>
 
             <div id="view_3" class="hidden">
-                <div>
-                    <p>Pregunta:</p>
-                    <p id="roundQuestion"></p></div>
-                <div>
-                    <label for="userAnswer">Respuesta</label>
-                    <input type="text" id="userAnswer">
+                <div class="container-view">
+                    <div>
+                        <label class="view-labels">Pregunta</label>
+                        <div>
+                            <p id="roundQuestion" class="view-p"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="userAnswer" class="view-labels">Respuesta</label>
+                        <input type="text" id="userAnswer" class="view-inputs">
+                    </div>
+                    <label class="view-labels">HINT</label>
+                    <div id="API1" class="view-p"></div>
+                    <div id="API2"></div>
+                    <button id="sendAnswer" class="view-button">Send</button>
                 </div>
-                <div id="API1"></div>
-                <div id="API2"></div>
-                <button id="sendAnswer">Send</button>
             </div>
 
             <div id="view_4" class="hidden">
@@ -73,6 +79,8 @@
             <div id="view_6" class="hidden">
                 <div id="winners"></div>
             </div>
+
+            <div id="view_7" class="invisible">ESPERANDO</div>
 
         </div>
     </div>

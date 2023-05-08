@@ -192,7 +192,7 @@ socket.onmessage = function(event) {
     default:
       break;
   }
-
+  waiting();
 };
 
 socket.onclose = function(event) {
@@ -225,6 +225,7 @@ if (localStorage.getItem('id') === localStorage.getItem('creator')) {
   document.getElementById("view_1").classList.remove("hidden")
 }
 else {
+  document.getElementById("view_7").classList.remove('invisible');
 }
 
 if ( localStorage.getItem('players') != '') {
@@ -333,4 +334,13 @@ return new Promise((resolve, reject) => {
   temperature: 0.5,
   }));
 });
+}
+
+function waiting() {
+  if(document.querySelectorAll(".hidden").length === 6) {
+    document.getElementById("view_7").classList.remove('invisible');
+  }
+  else {
+    document.getElementById("view_7").classList.add('invisible');
+  }
 }
