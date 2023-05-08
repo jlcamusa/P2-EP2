@@ -74,7 +74,7 @@ socket.onmessage = function(event) {
 
         document.getElementById("API1").innerHTML = '';
 
-        getChatResponse(data.question).then(response => {
+        getChatResponse(toString(data.question)).then(response => {
           document.getElementById("API1").innerHTML = response;
           }).catch(error => {
           document.getElementById("API1").innerHTML = 'ERROR';
