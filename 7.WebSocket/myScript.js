@@ -1,4 +1,5 @@
 //----- DATA -----//
+const axios = require('axios');
 const unjoin = new XMLHttpRequest();
 
 let token_access = localStorage.getItem('access_token')
@@ -71,7 +72,15 @@ socket.onmessage = function(event) {
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
         document.getElementById("roundQuestion").innerHTML = data.question;
-      } 
+
+        document.getElementById("API1").innerHTML = '';
+
+        getChatResponse(data.question).then(response => {
+          document.getElementById("API1").innerHTML = response;
+          }).catch(error => {
+          document.getElementById("API1").innerHTML = 'ERROR';
+          });      
+      }
       time = parseInt(localStorage.getItem("answer_time"));
       break;
     case "round_answer":
@@ -298,4 +307,44 @@ function update() {
     '<div>'+ players_data[element].status + '</div>' +
     '</li>'
   })
+}
+
+function getChatResponse(prompt) {
+  const API_KEY = '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'; // Reemplaza "tu_clave_api" con tu clave API
+  const url = 'https://api.openai.com/v1/completions';
+return new Promise((resolve, reject) => {
+  const request = new XMLHttpRequest();
+  request.open('POST', url);
+  request.setRequestHeader('Content-Type', 'application/json');
+  request.setRequestHeader('Authorization', `Bearer ${API_KEY}`);
+  request.onload = () => {
+  if (request.status >= 200 && request.status < 300) {
+      const response = JSON.parse(request.responseText);
+      resolve(response.choices[0].text.trim());
+  } else {
+      reject(request.statusText);
+  }
+  };
+  request.onerror = () => {
+  reject('Error de red');
+  };
+  request.send(JSON.stringify({
+  "model": "text-davinci-003",
+  prompt: prompt,
+  max_tokens: 100,
+  temperature: 0.5,
+  }));
+});
+}
+
+async function searchMovies(query) {
+  const API_URL = 'http://www.omdbapi.com/?apikey=42fa4060&type=movie&s=';
+  const response = await axios.get(`${API_URL}${query}`);
+  const results = response.data.Search.map((result) => ({
+    id: result.imdbID,
+    title: result.Title,
+    year: result.Year,
+    poster: result.Poster
+  }));
+  return results;
 }
