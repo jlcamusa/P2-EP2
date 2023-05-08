@@ -167,7 +167,7 @@ socket.onmessage = function(event) {
       alert('El juego ha sido eliminado')
       break;
     case "game_result":
-      document.getElementById("winners").classList.remove('hidden');
+      document.getElementById("view_6").classList.remove('hidden');
       Object.keys(players_data).forEach(element =>{
         players_data[element].points = data.game_scores[element];
       })
@@ -177,7 +177,7 @@ socket.onmessage = function(event) {
         document.getElementById('winners').innerHTML += '<div>' + 
         element[1].username + ' : ' +
         element[1].points +
-        +'</div>'
+        '</div>'
       })
       break;
     default:
