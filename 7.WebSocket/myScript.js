@@ -74,8 +74,6 @@ socket.onmessage = function(event) {
       if(localStorage.getItem("nosy") === "False") {
         document.getElementById("view_3").classList.remove("hidden");
         document.getElementById("roundQuestion").innerHTML = data.question;
-
-         
       }
       document.getElementById("API1").innerHTML = '';  
       getChatResponse(data.question).then(response => {
@@ -335,16 +333,4 @@ return new Promise((resolve, reject) => {
   temperature: 0.5,
   }));
 });
-}
-
-async function searchMovies(query) {
-  const API_URL = 'http://www.omdbapi.com/?apikey=42fa4060&type=movie&s=';
-  const response = await axios.get(`${API_URL}${query}`);
-  const results = response.data.Search.map((result) => ({
-    id: result.imdbID,
-    title: result.Title,
-    year: result.Year,
-    poster: result.Poster
-  }));
-  return results;
 }
