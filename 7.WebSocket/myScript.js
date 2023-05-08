@@ -8,6 +8,7 @@ let gameid = localStorage.getItem('Game');
 let socket = new WebSocket("wss://trivia-bck.herokuapp.com/ws/trivia/" + gameid + "/?token=" + token_access);
 
 //TODO fix player
+let players_data = {};
 let players = [];
 let faults = 0;
 let points = 0;
@@ -24,18 +25,36 @@ socket.onmessage = function(event) {
   data = JSON.parse(event.data)
 
   switch (data.type) {
+    case "error":
+      document.getElementById('error').innerHTML = data.message
+      document.getElementById('view_1').classList.remove('hidden');
+      break;
     case "player_joined":
-      players.push(data.username);
+      if (!players.includes(data.username)){
+        players.push(data.username);
+        document.getElementById('rounds').min = players.length + 1;
+        document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
+        document.getElementById('error').innerHTML = '';
+      }      
       //TODO fix issue when selecting minimum rounds
-      document.getElementById('rounds').min = players.length + 1;
-      document.getElementById('players').innerHTML += "<li>"+ data.username +"</li>"; 
+      
       break;
     case "player_unjoined":
+      //TODO fix remove player from players var
+      players_data[data.userid].status = "Disconnected"
       players.splice(players.indexOf(data.username),1);
       document.getElementById('players').innerHTML = "";
       players.forEach(element => {
         document.getElementById('players').innerHTML += "<li>"+ element +"</li>"; 
       })
+      update();
+      break;
+    case "game_started":
+      data.players.forEach(element =>{
+        players_data[element.userid] = {"username": element.username,"points":0,"status":"OK"};
+      })
+      console.log(players_data);
+      update();
       break;
     case "round_started":
       if (data.nosy_id === parseInt(localStorage.getItem('id'))){
@@ -47,7 +66,6 @@ socket.onmessage = function(event) {
         document.getElementById('nosy').innerHTML = "";
         localStorage.setItem("nosy","False");
       }
-
       time = parseInt(localStorage.getItem("question_time"));
       break;
     case "round_question":
@@ -97,6 +115,9 @@ socket.onmessage = function(event) {
       time = 30;
       break;
     case "round_result":
+      players_data.forEach(element => {
+        players_data[element.id].points = data.game_scores[element.id];
+      })
       points = data.game_scores[localStorage.getItem("id")]
       document.getElementById('points').innerHTML = 'Puntos: ' + points;
     case "user_fault":
@@ -127,13 +148,17 @@ socket.onmessage = function(event) {
         }
         document.getElementById('faults').innerHTML = "Faltas: " + faults;
       }
-      if (faults >= 3) {
+      break;
+    case "user_disqualified":
+      if (data.player_id === parseInt(localStorage.getItem("id"))) {
         unjoin.open("POST","https://trivia-bck.herokuapp.com/api/games/gameid/unjoin_game/");
   	    unjoin.setRequestHeader("Authorization","Bearer " + token_access);
   	    unjoin.send();
         alert('Has sido descalificado');
         window.location.href='../3.JoinGameView/main.html';
       }
+      players_data[data.player_id].status = "Disqualified"
+      update();
       break;
     case "game_result":
       break;
@@ -173,6 +198,15 @@ if (localStorage.getItem('id') === localStorage.getItem('creator')) {
   document.getElementById("view_1").classList.remove("hidden")
 }
 else {
+}
+
+if ( localStorage.getItem('players') != '') {
+  JSON.parse(localStorage.getItem('players')).forEach(element => {
+  if (localStorage.getItem('User') != element.username) {
+    document.getElementById('players').innerHTML += "<li>"+ element.username +"</li>";
+    players.push(element.username);
+  }
+  })
 }
 
 document.getElementById("clock").innerHTML = localStorage.getItem("question_time");
@@ -234,4 +268,15 @@ function clock() {
     time --;
     document.getElementById("clock").innerHTML = time;
   }
+}
+
+function update() {
+  document.getElementById('players').innerHTML = '';
+  Object.keys(players_data).forEach(element => {
+    document.getElementById('players').innerHTML += '<li class="user_info">' +
+    '<div>'+ players_data[element].username + '</div>' +
+    '<div>'+ players_data[element].points + '</div>' +
+    '<div>'+ players_data[element].status + '</div>' +
+    '</li>'
+  })
 }

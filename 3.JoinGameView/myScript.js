@@ -41,6 +41,7 @@ function joinGame(game) {
   localStorage.setItem('answer_time',game.answer_time);
   localStorage.setItem('question_time',game.question_time);
   localStorage.setItem('creator',game.creator.id);
+  localStorage.setItem('players', JSON.stringify(game.players));
 
   //TODO guardar jugadores
   join.open('POST', 'https://trivia-bck.herokuapp.com/api/games/' + game.id + '/join_game/');

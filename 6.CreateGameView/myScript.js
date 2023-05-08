@@ -4,7 +4,7 @@ function newGame() {
     let name = document.getElementById('name').value;
     let questionTime = document.getElementById('questionTime').value;
     let answerTime = document.getElementById('answerTime').value;
-
+    localStorage.setItem('players','');
     let JSON_OBJECT = {'name': name, 'question_time': questionTime, 'answer_time': answerTime};
 
     console.log(JSON_OBJECT);
