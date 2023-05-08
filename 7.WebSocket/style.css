@@ -11,3 +11,106 @@
     display: none;
     visibility: hidden;
 }
+
+.logo {
+    width: 250px;
+}
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .timer-container {
+    position: relative;
+  }
+  
+  .timer {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Poppins';
+  }
+  
+  .timer span {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #eee;
+  }
+  
+  .timer .seconds {
+    background-color: #c1071e;
+    color: #fff;
+  }
+
+  .input-rounds {
+    padding: 0.5em;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    font-family: "Poppins", sans-serif;
+    font-size: 1em;
+    width: 400px;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px;
+  }
+
+  .button-rounds {
+    background-color: #c1071e;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    padding: 0.8em 1.5em;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .button-rounds:hover {
+    background-color: #c1071e;
+  }
+
+  .view-rounds {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .error {
+    font-family: 'Poppins';
+    color: #c1071e;
+    font-weight: bold;
+  }
+
+  .dialog {
+    font-family: 'Poppins';
+    color: #c1071e;
+    font-weight: bold;
+  }
+
+  .view-question {
+    text-align: center;
+  }
+
+  .container-view2 {
+    color: black;
+    padding: 100px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
