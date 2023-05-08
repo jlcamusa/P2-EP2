@@ -5,3 +5,30 @@
 .right {
     float: right;
 }
+
+.container-title {
+    text-align: center;
+}
+
+.container-games {
+    width: 100%;
+}
+
+.game{
+    border: 4px solid #c1071e;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin: 5px;
+    font-family: 'Poppins';
+  }
+  
+  .game:hover {
+    background-color: #c1071e;
+    color: white;
+  }
