@@ -157,3 +157,25 @@
     display: none;
     visibility: hidden;
   }
+
+  .userQualify {
+    padding: 0.5em;
+    border-radius: 10px;
+    border: 4px solid #c1071e;
+    font-family: "Poppins", sans-serif;
+    font-size: 1em;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+    height: 60px;
+}
+
+.view7-div {
+  text-align: center;
+  margin-top: 120px;
+  font-size: 70px;
+  font-family: "Poppins", sans-serif;
+  color: #c1071e;
+  font-weight: bold;
+}
+
+

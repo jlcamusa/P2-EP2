@@ -4,7 +4,7 @@ const unjoin = new XMLHttpRequest();
 let token_access = localStorage.getItem('access_token')
 const Game = JSON.parse(localStorage.getItem('Game'))
 
-const API_KEY = ''; //API KEY GOES HERE
+const API_KEY = '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'; //API KEY GOES HERE
 const url = 'https://api.openai.com/v1/completions';
 
 let gameid = localStorage.getItem('Game');
@@ -85,8 +85,8 @@ socket.onmessage = function(event) {
       break;
     case "round_answer":
       data.userid;
-      document.getElementById("evaluateAnswers").innerHTML += '<div>'+
-        '<div>'+ data.answer +'</div>'+
+      document.getElementById("evaluateAnswers").innerHTML += '<div class="container-view">'+
+        '<label class="view-label">'+ data.answer +'</label>'+
         '<div><select class="userQualify">'+
         '<option value=' + 0 + ',' + data.userid + '>Mala</option>'+
         '<option value=' + 1 + ',' + data.userid + '>Mas o Menos</option>'+

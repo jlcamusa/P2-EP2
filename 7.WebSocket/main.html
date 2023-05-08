@@ -38,7 +38,7 @@
                         <input type="text" id="question" class="view-inputs">
                     </div>
                     <div>
-                        <label for="answer" class="view2-labels">Respuesta</label>
+                        <label for="answer" class="view-labels">Respuesta</label>
                         <input type="text" id="answer" class="view-inputs">
                     </div>
                     <div>
@@ -62,25 +62,27 @@
                     <label class="view-labels">HINT</label>
                     <div id="API1" class="view-p"></div>
                     <div id="API2"></div>
-                    <button id="sendAnswer" class="view-button">Send</button>
+                    <button id="sendAnswer" class="view-button">ENVIAR</button>
                 </div>
             </div>
 
             <div id="view_4" class="hidden">
                 <div id="evaluateAnswers"></div>
-                <div><button id="sendQualify">Send</button></div>
+                <div><button id="sendQualify" class="view-button">ENVIAR</button></div>
             </div>
 
             <div id="view_5" class="hidden">
                 <div id="reviewAnswers"></div>
-                <div><button id="sendReview">Send</button></div>
+                <div><button id="sendReview">ENVIAR</button></div>
             </div>
             
             <div id="view_6" class="hidden">
                 <div id="winners"></div>
             </div>
 
-            <div id="view_7" class="invisible">ESPERANDO</div>
+            <div id="view_7" class="invisible view7-div">
+                <label class="view-labels-waiting">ESPERANDO...</label>
+            </div>
 
         </div>
     </div>
