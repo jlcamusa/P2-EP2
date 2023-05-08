@@ -17,7 +17,8 @@ games.onload = function() {
   
   Object.keys(data).forEach(element => {
     element = data[element];
-    document.getElementById('games').innerHTML += '<div class="game">'+ element.name +'</div>';
+    document.getElementById('games').innerHTML += '<div class="game">'+ element.name + 
+    '<span class="right">' + element.players.length + '/12' +'</span></div>';
   })
 
   index = 0;
